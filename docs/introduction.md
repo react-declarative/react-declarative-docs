@@ -15,15 +15,15 @@ react-declarative scales from a single embedded form to a full CRM or ERP — th
 
 ## Key features
 
-**[Forms (One)](/components/one)**
+**[Forms (One)](./components/one.md)**
 
 Render nested 12-column grid forms from a `TypedField[]` schema. Supports 40+ field types, inline validation, conditional visibility, and JSX injection.
 
-**[Data grid (List)](/components/list)**
+**[Data grid (List)](./components/list.md)**
 
 Filterable, sortable, paginated data grid with built-in mobile layout. Columns, filters, actions, and row menus are all configured from JSON.
 
-**[App shell (Scaffold)](/components/scaffold)**
+**[App shell (Scaffold)](./components/scaffold.md)**
 
 Material Design app shells with navigation groups, tabs, and action menus — configured from an `IScaffold2Group[]` array, not hand-written JSX.
 
@@ -69,10 +69,10 @@ react-declarative schemas are structured JSON, which makes them easy for LLMs to
 
 ## Next steps
 
-**[Installation](/installation)**
+**[Installation](./installation.md)**
 
 Install the package and peer dependencies in two commands.
 
-**[Quick start](/quickstart)**
+**[Quick start](./quickstart.md)**
 
 Build your first form and data grid in under five minutes.

@@ -96,7 +96,7 @@ All field types share the properties defined on `IField<Data, Payload>`. The tab
 
 **`type`** _(FieldType, required)_
 
-The field type. Determines which component is rendered and which additional props are available. See the [FieldType reference](/api/types/field-type).
+The field type. Determines which component is rendered and which additional props are available. See the [FieldType reference](./field-type.md).
 
 **`name`** _(string)_
 

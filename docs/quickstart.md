@@ -203,7 +203,7 @@ There is no separate mapping step. No reducers. No form context to configure. Th
 
 ## Next steps
 
-- [Field types reference](/concepts/field-types) — See all 40+ field types: text, combo, date, rating, file, checkbox, slider, and more.
-- [Form validation](/guides/form-validation) — Add inline validation with `isInvalid`, `isDisabled`, and `isVisible` callbacks.
-- [Conditional fields](/guides/conditional-fields) — Show or hide fields dynamically based on other field values.
+- [Field types reference](./concepts/field-types.md) — See all 40+ field types: text, combo, date, rating, file, checkbox, slider, and more.
+- [Form validation](./guides/form-validation.md) — Add inline validation with `isInvalid`, `isDisabled`, and `isVisible` callbacks.
+- [Conditional fields](./guides/conditional-fields.md) — Show or hide fields dynamically based on other field values.
 - [Playground](https://react-declarative-playground.github.io/) — Experiment with schemas interactively in the browser.

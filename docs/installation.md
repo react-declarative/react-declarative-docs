@@ -75,4 +75,4 @@ console.log(FieldType.Text); // 'text'
 
 ## Next steps
 
-Once installation is complete, follow the [quick start guide](/quickstart) to build your first form.
+Once installation is complete, follow the [quick start guide](./quickstart.md) to build your first form.
