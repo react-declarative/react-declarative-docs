@@ -1,7 +1,4 @@
----
-title: "Async Data Patterns in react-declarative"
-description: "Async data patterns in react-declarative: load form data with handler, prevent duplicate calls with useSinglerunAction, queue actions, and track batch progress."
----
+# Async Data Patterns in react-declarative
 
 React-declarative ships with a cohesive set of primitives for every async data pattern you will encounter: loading initial form data, preventing duplicate submissions, queuing actions in order, tracking batch progress, and fetching data inside hooks. Each primitive returns a `loading` and `error` state alongside the `execute` function, so you can drive loading indicators without managing that state yourself.
 

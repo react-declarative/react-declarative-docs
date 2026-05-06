@@ -1,7 +1,4 @@
----
-title: "Client-side routing with the Switch component"
-description: "Use the Switch component with ISwitchItem arrays, async guards, prefetch and unload hooks, redirects, and useRouteParams to build client-side navigation."
----
+# Client-side routing with the Switch component
 
 React-declarative ships its own router centered on the `<Switch />` component. You describe your application's routes as a plain array of `ISwitchItem` objects — each one carrying the path pattern, the component to render, optional async guards, prefetch logic, and redirect rules. `<Switch />` reads the current URL from a `history` object and renders the matching element, running guards and prefetches before the component mounts.
 

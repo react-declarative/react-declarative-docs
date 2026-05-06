@@ -1,7 +1,4 @@
----
-title: "Scaffold2: config-driven Material Design app shell"
-description: "Build a full Material Design app shell from IScaffold2Group config arrays. Supports async visibility guards, tabs, nested menus, and slot components."
----
+# Scaffold2: config-driven Material Design app shell
 
 `<Scaffold2 />` implements the Material Design app shell pattern — the top app bar, collapsible side navigation drawer, and content area — entirely from a configuration array. You declare groups and menu items as plain objects, attach async visibility and disabled guards, and let the component wire up the chrome. Your page content goes in as `children`. `Scaffold3` is a newer variant with an updated visual style; the configuration API is identical.
 

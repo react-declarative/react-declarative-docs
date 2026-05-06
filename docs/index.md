@@ -1,7 +1,4 @@
----
-title: "react-declarative docs: schema-driven React UI library"
-description: "react-declarative builds forms, data grids, and app shells from TypedField JSON schemas. Zero manual state wiring. TypeScript IntelliSense on every field."
----
+# react-declarative docs: schema-driven React UI library
 
 react-declarative is a TypeScript React library that turns JSON field schemas into fully functional MUI-based forms, data grids, and application shells — with zero manual state wiring. Define your UI declaratively, and the library handles rendering, validation, and state management automatically.
 

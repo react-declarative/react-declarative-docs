@@ -1,7 +1,4 @@
----
-title: "List component: paginated and filterable data grid"
-description: "Render paginated, sortable, filterable data grids with the List component. Configure columns, filters, actions, chips, and row menus from a JSON schema."
----
+# List component: paginated and filterable data grid
 
 `<List />` (and its typed sibling `<ListTyped />`) is react-declarative's data grid. You configure columns with `IColumn[]`, define filter fields with the same `TypedField[]` schema used by `<One />`, attach bulk actions and per-row menus, and hand the component a `handler` function that fetches a page of rows. The grid handles pagination, sorting, chip filters, free-text search, and mobile layout adaptation automatically.
 

@@ -1,7 +1,4 @@
----
-title: "What is react-declarative and what can you build"
-description: "react-declarative generates forms, data grids, kanban boards, and app shells from a TypedField JSON schema with automatic state management and MUI components."
----
+# What is react-declarative and what can you build
 
 react-declarative is a TypeScript React library that turns a `TypedField[]` JSON schema into fully functional forms, data grids, kanban boards, wizards, and application shells — without manual state wiring. You describe what you want using a JSON schema; the library handles rendering, validation, and state management automatically on top of Material UI (MUI) components.
 

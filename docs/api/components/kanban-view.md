@@ -1,7 +1,4 @@
----
-title: "KanbanView props: columns, items, and row definition"
-description: "Full props reference for KanbanView in react-declarative: IBoardColumn, IBoardItem, IBoardRow, onChangeColumn, reloadSubject, and real-time update patterns."
----
+# KanbanView props: columns, items, and row definition
 
 `KanbanView` renders a horizontal kanban board made up of typed columns. Each column displays a virtualised list of cards drawn from the `items` array. Users can drag cards between columns; the component fires `onChangeColumn` so you can persist the move. Card content is declarative: each column carries a `rows` array that describes what data to show on every card in that column, and the `value` function on each row is called per-card to asynchronously compute the displayed text or node.
 

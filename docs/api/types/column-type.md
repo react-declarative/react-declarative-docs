@@ -1,7 +1,4 @@
----
-title: "ColumnType enum: Text, Action, Compute, and Component"
-description: "API reference for the ColumnType enum in react-declarative — all five column types, what each renders in a List grid, and IColumn definition examples."
----
+# ColumnType enum: Text, Action, Compute, and Component
 
 `ColumnType` controls how each column in a `<List />` component renders its cell content. You set it on the `type` property of an `IColumn` definition object. Each type has a distinct rendering strategy — from plain text to interactive action menus to fully custom React components.
 

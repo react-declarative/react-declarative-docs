@@ -1,7 +1,4 @@
----
-title: "Collection hooks: useCollection, useModel, useEntity"
-description: "API reference for MVVM state hooks in react-declarative: useCollection for observable arrays, useModel for single objects, and useEntity for id-bearing records."
----
+# Collection hooks: useCollection, useModel, useEntity
 
 Collection hooks give you fine-grained, observable reactive state built on the MVVM pattern. Rather than replacing a full state array on every change, these hooks operate on internal `Collection`, `Model`, and `Entity` instances and only trigger re-renders when the underlying data actually changes. All mutation methods are async and wait for the component to be mounted and subscribed before applying changes, preventing race conditions during React 18's concurrent rendering.
 

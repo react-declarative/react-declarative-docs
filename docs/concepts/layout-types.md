@@ -1,7 +1,4 @@
----
-title: "Layout types: Group, Paper, Tabs, Condition, and more"
-description: "Guide to react-declarative layout containers — Group, Paper, Expansion, Tabs, Condition, and custom Layout — with responsive 12-column grid examples."
----
+# Layout types: Group, Paper, Tabs, Condition, and more
 
 Layout types are `FieldType` values that act as containers. They do not store values themselves; instead, they wrap one or more child fields inside a visual or logical structure. You nest child fields in a `fields` array (multiple children) or a `child` property (single child). All layout types participate in the same 12-column responsive grid as regular fields, so you can compose arbitrarily complex UIs purely from data.
 

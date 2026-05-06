@@ -1,7 +1,4 @@
----
-title: "Field types: complete FieldType enum guide with examples"
-description: "All FieldType enum values in react-declarative — input, toggle, numeric, display, and special types — with code examples for the most commonly used ones."
----
+# Field types: complete FieldType enum guide with examples
 
 The `FieldType` enum is the vocabulary of react-declarative. Every object in your `TypedField[]` schema must have a `type` property set to one of these values, and that choice determines which Material UI widget renders, which props become available, and how the value is stored in your data object. The sections below group every enum member by purpose and show practical examples for the most common types.
 

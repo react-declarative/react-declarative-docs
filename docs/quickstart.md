@@ -1,7 +1,4 @@
----
-title: "Quick start: build your first form and grid"
-description: "Build a typed user profile form with One and a simple data grid with ListTyped in under five minutes using react-declarative's JSON schema approach."
----
+# Quick start: build your first form and grid
 
 This guide walks you through two core patterns: building a form with the `<One />` component and rendering a data grid with `<ListTyped />`. Both follow the same schema-first approach — you define the structure as a TypeScript array, and react-declarative handles the rest.
 

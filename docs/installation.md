@@ -1,7 +1,4 @@
----
-title: "Installing react-declarative in your project"
-description: "Install react-declarative and its MUI v5 peer dependencies, or scaffold a new app with the CRA template. Includes a lite version for existing projects."
----
+# Installing react-declarative in your project
 
 react-declarative builds on top of Material UI (MUI) v5, so you install both the library and its required peer dependencies together. This page covers the three installation paths: a fresh project, an existing project, and a lightweight variant for apps that only need forms.
 

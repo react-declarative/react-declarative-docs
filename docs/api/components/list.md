@@ -1,7 +1,4 @@
----
-title: "List component props: columns, handler, actions reference"
-description: "Full props reference for the List data grid in react-declarative: handler, columns, filters, actions, chips, rowActions, pagination flags, and callbacks."
----
+# List component props: columns, handler, actions reference
 
 `List` is a batteries-included data grid component. You supply a `handler` function that receives the current filter state, pagination, sort model, chip toggles, and search string, then returns a page of rows. `List` handles the rest: rendering columns, paginating results, collecting filter form values via a `One`-compatible `filters` schema, and wiring up toolbar actions and per-row menus. The component is generic over `FilterData` (filter form shape), `RowData` (row object shape), and `Payload` (extra context).
 

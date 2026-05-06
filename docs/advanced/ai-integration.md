@@ -1,7 +1,4 @@
----
-title: "Generating UI with AI using JSON schemas"
-description: "Generate react-declarative form schemas with AI tools. The JSON format is LLM-friendly — no state code needed. Includes sample prompts and reference schemas."
----
+# Generating UI with AI using JSON schemas
 
 `react-declarative` is exceptionally well-suited for AI-assisted UI generation. The form schema is a plain JSON array of field objects—no JSX, no hooks, no state management code. Because `<One />` handles all state automatically, you never need to ask an AI to write `useState`, `useEffect`, or event handlers. You give the model a working example, describe what you want, and paste the output directly into the playground to verify it before using it in your app.
 
