@@ -2,11 +2,13 @@
   "name": "react-declarative-docs",
   "version": "1.0.0",
   "scripts": {
-    "build": "rimraf build && mkdir build && touch build/.gitkeep && typedoc"
+    "build": "rimraf build && mkdir build && typedoc && touch build/.gitkeep",
+    "preview": "cd build && http-server -p 8888"
   },
   "dependencies": {
+    "http-server": "14.1.1",
     "rimraf": "6.0.1",
-    "touch-cli": "^0.0.1",
+    "touch-cli": "0.0.1",
     "typedoc": "0.27.9"
   }
 }

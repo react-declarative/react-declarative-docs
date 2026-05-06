@@ -8,5 +8,6 @@
     "out": "./build",
     "sort": [
         "alphabetical"
-    ]
+    ],
+    "tsconfig": "./tsconfig.json"
 }
