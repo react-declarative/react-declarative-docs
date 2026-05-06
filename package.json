@@ -1,0 +1,12 @@
+{
+  "name": "react-declarative-docs",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "rimraf build && mkdir build && touch build/.gitkeep && typedoc"
+  },
+  "dependencies": {
+    "rimraf": "6.0.1",
+    "touch-cli": "^0.0.1",
+    "typedoc": "0.27.9"
+  }
+}

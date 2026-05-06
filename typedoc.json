@@ -1,0 +1,12 @@
+{
+    "entryPoints": ["./types.d.ts"],
+    "readme": "./README.md", 
+    "projectDocuments": ["docs/*"],
+    "name": "react-declarative",
+    "includeVersion": false,
+    "logLevel": "Verbose",
+    "out": "./build",
+    "sort": [
+        "alphabetical"
+    ]
+}
