@@ -1,0 +1,515 @@
+# Async hooks: useSinglerunAction, useQueuedAction, and more
+
+Async hooks give you a consistent way to handle asynchronous operations in your components. Each hook returns a `loading` boolean and an `error` boolean alongside an `execute` function, so you can drive UI state without writing boilerplate. Depending on which hook you choose, you get additional behavior: single-execution guards, ordered queuing, batch progress tracking, or a shared semaphore that disables multiple buttons at once.
+
+## useSinglerunAction
+
+Wraps an async function so that **only one invocation can run at a time**. If you call `execute` while a previous call is still pending, the new call is a no-op until the first one settles. This is useful for upload buttons and any action where duplicate submissions would cause problems.
+
+### Signature
+
+```ts
+function useSinglerunAction<Data, Payload>(
+  run: (payload: Payload) => Data | Promise<Data>,
+  options?: {
+    onLoadStart?: () => void;
+    onLoadEnd?: (isOk: boolean) => void;
+    fallback?: (e: Error) => void;
+    throwError?: boolean;
+  }
+): {
+  execute: (payload?: Payload) => Promise<Data | null>;
+  loading: boolean;
+  error: boolean;
+}
+```
+
+### Parameters
+
+**`run`** *(required)* — `(payload: Payload) => Data | Promise<Data>`
+
+The async function to execute. Receives an optional `payload` argument and must return the result or a Promise of the result.
+
+**`options.onLoadStart`** — `() => void`
+
+Called immediately before the action begins executing. Use this to show a global loader.
+
+**`options.onLoadEnd`** — `(isOk: boolean) => void`
+
+Called after the action completes or fails. `isOk` is `false` when an error was thrown.
+
+**`options.fallback`** — `(e: Error) => void`
+
+Called with the caught error when the action throws and `throwError` is `false` (the default). Use this to display an error toast.
+
+**`options.throwError`** — `boolean` *(default: `false`)*
+
+When `true`, errors thrown inside `run` are re-thrown from `execute` instead of being passed to `fallback`.
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `execute` | `(payload?) => Promise<Data \| null>` | Triggers the action. Concurrent calls while loading are silently dropped. Call `execute.clear()` to reset the single-run lock. |
+| `loading` | `boolean` | `true` while the action is running. |
+| `error` | `boolean` | `true` if the most recent invocation threw an error. |
+
+### Usage
+
+```tsx
+import { useSinglerunAction } from 'react-declarative';
+
+function UploadButton({ onChange }: { onChange: (path: string) => void }) {
+  const { execute, loading } = useSinglerunAction(async () => {
+    const file = await chooseFile('image/jpeg,image/png');
+    if (file) {
+      const filePath = await uploadService.upload(file);
+      onChange(filePath);
+    }
+  });
+
+  return (
+    <button onClick={execute} disabled={loading}>
+      {loading ? 'Uploading…' : 'Upload image'}
+    </button>
+  );
+}
+```
+
+---
+
+## useQueuedAction
+
+Runs every call in the order it was received — earlier calls must complete before later ones start. Unlike `useSinglerunAction`, **no calls are dropped**: they queue up and execute sequentially. This is ideal for real-time state-reducer patterns such as processing WebSocket events in order.
+
+### Signature
+
+```ts
+function useQueuedAction<Data, Payload>(
+  run: (payload: Payload) => Data | Promise<Data>,
+  options?: {
+    onLoadStart?: () => void;
+    onLoadEnd?: (isOk: boolean) => void;
+    fallback?: (e: Error) => void;
+    throwError?: boolean;
+  }
+): {
+  execute: (payload?: Payload) => Promise<Data | null>;
+  loading: boolean;
+  error: boolean;
+}
+```
+
+### Parameters
+
+**`run`** *(required)* — `(payload: Payload) => Data | Promise<Data>`
+
+The async function to execute for each queued item.
+
+**`options.onLoadStart`** — `() => void`
+
+Called before each queued execution begins.
+
+**`options.onLoadEnd`** — `(isOk: boolean) => void`
+
+Called after each queued execution completes or fails.
+
+**`options.fallback`** — `(e: Error) => void`
+
+Error handler when `throwError` is `false`.
+
+**`options.throwError`** — `boolean` *(default: `false`)*
+
+Re-throws errors from `execute` instead of routing them to `fallback`.
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `execute` | `(payload?) => Promise<Data \| null>` | Enqueues a call. Call `execute.cancel()` to abandon the current item and `execute.clear()` to drain the entire queue. |
+| `loading` | `boolean` | `true` while any item is being processed. |
+| `error` | `boolean` | `true` if the most recent item threw. |
+
+### Usage
+
+```tsx
+import { useEffect } from 'react';
+import { useQueuedAction } from 'react-declarative';
+
+function KanbanBoard() {
+  const { execute } = useQueuedAction(
+    async ({ type, payload }) => {
+      if (type === 'create') await api.createCard(payload);
+      if (type === 'update') await api.updateCard(payload);
+      if (type === 'remove') await api.removeCard(payload);
+    },
+    {
+      onLoadStart: () => setAppbarLoader(true),
+      onLoadEnd:   () => setAppbarLoader(false),
+    }
+  );
+
+  useEffect(() => kanbanService.createSubject.subscribe(execute), []);
+  useEffect(() => kanbanService.updateSubject.subscribe(execute), []);
+  useEffect(() => kanbanService.removeSubject.subscribe(execute), []);
+
+  return <Board />;
+}
+```
+
+---
+
+## useAsyncAction
+
+The foundational async hook. Every call to `execute` **cancels the previous in-flight call** and starts a fresh one. Use this when you want the latest request to always win — for example, live search or on-demand data loads triggered by user interactions.
+
+### Signature
+
+```ts
+function useAsyncAction<Data, Payload>(
+  run: (payload: Payload) => Data | Promise<Data>,
+  options?: {
+    onLoadStart?: () => void;
+    onLoadEnd?: (isOk: boolean) => void;
+    fallback?: (e: Error) => void;
+    throwError?: boolean;
+  }
+): {
+  execute: (payload?: Payload) => Promise<Data | null>;
+  loading: boolean;
+  error: boolean;
+}
+```
+
+### Parameters
+
+**`run`** *(required)* — `(payload: Payload) => Data | Promise<Data>`
+
+The async function to run. The previous invocation is cancelled when a new `execute` call arrives.
+
+**`options.onLoadStart`** — `() => void`
+
+Called before each execution.
+
+**`options.onLoadEnd`** — `(isOk: boolean) => void`
+
+Called after each execution.
+
+**`options.fallback`** — `(e: Error) => void`
+
+Error handler when `throwError` is `false`.
+
+**`options.throwError`** — `boolean` *(default: `false`)*
+
+Re-throws errors from `execute`.
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `execute` | `(payload?) => Promise<Data \| null>` | Triggers the action, cancelling any previous pending call. |
+| `loading` | `boolean` | `true` while the current call is running. |
+| `error` | `boolean` | `true` if the most recent call threw. |
+
+### Usage
+
+```tsx
+import { useAsyncAction } from 'react-declarative';
+
+function SaveButton({ data }: { data: FormData }) {
+  const { execute, loading, error } = useAsyncAction(
+    async (formData: FormData) => {
+      await api.save(formData);
+    },
+    {
+      fallback: (e) => toast.error(e.message),
+    }
+  );
+
+  return (
+    <>
+      {error && <span>Save failed — please try again.</span>}
+      <button onClick={() => execute(data)} disabled={loading}>
+        Save
+      </button>
+    </>
+  );
+}
+```
+
+---
+
+## useAsyncProgress
+
+Processes a **batch of items sequentially** while tracking progress as a percentage (0–100). Each item in the array is processed one at a time; the hook exposes the current progress value and any per-item errors that accumulated. Feed the `progress` value directly into a `<LinearProgress />` component.
+
+### Signature
+
+```ts
+interface IProcess<Data> {
+  label: string;  // human-readable identifier shown while processing
+  data: Data;     // the payload passed to your process function
+}
+
+function useAsyncProgress<Data, Result = void>(
+  process: (item: IProcess<Data>) => Result | Promise<Result>,
+  options?: {
+    delay?: number;
+    onBegin?: () => void;
+    onEnd?: (isOk: boolean) => void;
+    onFinish?: (
+      data: Data[],
+      errors: { label: string; message: string; error: Error }[],
+      results: (Result | null)[]
+    ) => void;
+    onError?: (errors: { label: string; message: string; error: Error }[]) => void | boolean;
+    onProgress?: (progress: number) => void;
+    onLoadStart?: () => void;
+    onLoadEnd?: (isOk: boolean) => void;
+  }
+): {
+  execute: (items: IProcess<Data>[]) => void;
+  loading: boolean;
+  progress: number;
+  errors: { label: string; message: string; error: Error }[];
+  label: string;
+}
+```
+
+### Parameters
+
+**`process`** *(required)* — `(item: { label: string; data: Data }) => Result | Promise<Result>`
+
+Called once per item. Each item has a human-readable `label` (used in error reporting) and the `data` object to process.
+
+**`options.delay`** — `number` *(default: `0`)*
+
+Minimum delay in milliseconds to hold on each item before advancing. Useful for giving the UI time to render progress updates.
+
+**`options.onBegin`** — `() => void`
+
+Called once before the first item is processed.
+
+**`options.onEnd`** — `(isOk: boolean) => void`
+
+Called once after all items are processed (or after an early abort). `isOk` is `false` if any item errored.
+
+**`options.onFinish`** — `(data, errors, results) => void`
+
+Called with the full input data array, all accumulated errors, and the result array after processing finishes.
+
+**`options.onError`** — `(errors) => void | boolean`
+
+Called when an item throws. Return `false` to abort the remaining items; return `true` or `undefined` to continue processing.
+
+**`options.onProgress`** — `(progress: number) => void`
+
+Called after each item with the updated percentage (0–100).
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `execute` | `(items: IProcess<Data>[]) => void` | Starts processing the batch. Concurrent calls are blocked (single-run semantics). |
+| `loading` | `boolean` | `true` while the batch is running. |
+| `progress` | `number` | Current percentage, 0–100. |
+| `errors` | `array` | Items that threw, each with `label`, `message`, and `error`. |
+| `label` | `string` | The `label` of the item currently being processed. |
+
+### Usage
+
+```tsx
+import { useState } from 'react';
+import { useAsyncProgress } from 'react-declarative';
+import LinearProgress from '@mui/material/LinearProgress';
+
+function ImportContacts() {
+  const [progress, setProgress] = useState(0);
+
+  const { execute, loading } = useAsyncProgress(
+    async ({ data }) => {
+      await api.createContact(data);
+    },
+    {
+      onProgress: setProgress,
+      onError: (errors) => {
+        console.error('Some rows failed:', errors);
+        return true; // continue remaining rows
+      },
+      onEnd: (isOk) => navigate(isOk ? '/success' : '/report'),
+    }
+  );
+
+  const handleFileSelect = async () => {
+    const file = await chooseFile('.xlsx');
+    if (file) {
+      const rows = await parseExcel(file);
+      execute(rows.map((row, i) => ({ label: `Row ${i + 1}`, data: row })));
+    }
+  };
+
+  return (
+    <>
+      {loading && <LinearProgress variant="determinate" value={progress} />}
+      <button onClick={handleFileSelect} disabled={loading}>
+        Import XLSX
+      </button>
+    </>
+  );
+}
+```
+
+---
+
+## useAsyncValue
+
+Fetches data asynchronously on mount (and whenever `deps` change) and stores the result in local state. It returns the current value, an action object for manual re-fetching, a setter for optimistic updates, and utility helpers. Think of it as `useState` combined with `useEffect` for async data.
+
+### Signature
+
+```ts
+function useAsyncValue<Data>(
+  run: () => Data | Promise<Data>,
+  options?: {
+    deps?: any[];
+    fallback?: (e: Error) => void;
+    onLoadStart?: () => void;
+    onLoadEnd?: (isOk: boolean) => void;
+    throwError?: boolean;
+  }
+): [
+  Data | null,                                                        // [0] current value
+  { execute: () => Promise<void>; loading: boolean; error: boolean }, // [1] action controls
+  (data: Data) => void,                                               // [2] optimistic setter
+  { waitForResult: () => Promise<Data>; data$: MutableRefObject<Data | null> } // [3] utilities
+]
+```
+
+### Parameters
+
+**`run`** *(required)* — `() => Data | Promise<Data>`
+
+Factory function called on mount and whenever `deps` change. Takes no arguments; close over variables you need.
+
+**`options.deps`** — `any[]` *(default: `[]`)*
+
+Dependency array passed to the internal `useEffect`. When any dep changes, `run` is called again.
+
+**`options.fallback`** — `(e: Error) => void`
+
+Error handler when `throwError` is `false`.
+
+**`options.onLoadStart`** — `() => void`
+
+Called before each fetch.
+
+**`options.onLoadEnd`** — `(isOk: boolean) => void`
+
+Called after each fetch.
+
+### Return value
+
+| Index | Type | Description |
+|---|---|---|
+| `[0]` | `Data \| null` | The current fetched value, or `null` before the first load. |
+| `[1]` | `{ execute, loading, error }` | Manual re-fetch control. Call `execute()` to trigger a new fetch. |
+| `[2]` | `(data: Data) => void` | Setter for optimistic updates — replaces the stored value without a network call. |
+| `[3].waitForResult` | `() => Promise<Data>` | Resolves when a non-null value becomes available. |
+| `[3].data$` | `MutableRefObject<Data \| null>` | A ref to the current value for use in callbacks without closure staleness. |
+
+### Usage
+
+```tsx
+import { useAsyncValue } from 'react-declarative';
+
+function UserProfile({ userId }: { userId: string }) {
+  const [user, { loading, error }, setUser] = useAsyncValue(
+    async () => api.getUser(userId),
+    { deps: [userId] }
+  );
+
+  if (loading) return <Spinner />;
+  if (error || !user) return <ErrorMessage />;
+
+  const handleRename = async (name: string) => {
+    const updated = await api.updateUser(userId, { name });
+    setUser(updated); // optimistic update — no refetch
+  };
+
+  return <UserCard user={user} onRename={handleRename} />;
+}
+```
+
+---
+
+## usePreventAction
+
+A **counting semaphore** that tracks how many async operations are currently in flight. Pass `handleLoadStart` and `handleLoadEnd` as `onLoadStart`/`onLoadEnd` props to multiple buttons, and they all share a single `loading` flag. While any one is running, the `loading` boolean is `true`, so you can disable them all simultaneously.
+
+### Signature
+
+```ts
+function usePreventAction(options?: {
+  disabled?: boolean;
+  onLoadStart?: () => void;
+  onLoadEnd?: (isOk: boolean) => void;
+}): {
+  handleLoadStart: () => void;
+  handleLoadEnd: (isOk: boolean) => void;
+  loading: boolean;
+}
+```
+
+### Parameters
+
+**`options.disabled`** — `boolean`
+
+When `true`, forces `loading` to `true` regardless of in-flight operations. Useful for propagating an external disabled state.
+
+**`options.onLoadStart`** — `() => void`
+
+Forwarded callback called each time any tracked operation starts.
+
+**`options.onLoadEnd`** — `(isOk: boolean) => void`
+
+Forwarded callback called each time any tracked operation ends.
+
+### Return value
+
+| Property | Type | Description |
+|---|---|---|
+| `handleLoadStart` | `() => void` | Increments the internal counter. Pass as `onLoadStart` to each `ActionButton`. |
+| `handleLoadEnd` | `(isOk: boolean) => void` | Decrements the counter. Pass as `onLoadEnd` to each `ActionButton`. |
+| `loading` | `boolean` | `true` when the counter is greater than zero, or when `disabled` is `true`. |
+
+### Usage
+
+```tsx
+import { usePreventAction, ActionButton } from 'react-declarative';
+
+function ToolBar() {
+  const { handleLoadStart, handleLoadEnd, loading } = usePreventAction();
+
+  return (
+    <>
+      <ActionButton
+        disabled={loading}
+        onLoadStart={handleLoadStart}
+        onLoadEnd={handleLoadEnd}
+        onClick={async () => api.doAction1()}
+      >
+        Action 1
+      </ActionButton>
+
+      <ActionButton
+        disabled={loading}
+        onLoadStart={handleLoadStart}
+        onLoadEnd={handleLoadEnd}
+        onClick={async () => api.doAction2()}
+      >
+        Action 2
+      </ActionButton>
+    </>
+  );
+}
+```
