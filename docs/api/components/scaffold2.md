@@ -1,3 +1,7 @@
+---
+title: docs/api/components/scaffold2
+group: docs
+---
 # Scaffold2 component props and navigation config
 
 `Scaffold2` is an application shell component. It renders a sidebar with grouped navigation items, an optional search field, a top toolbar with action buttons, and a content area where you render your page content as `children`. Navigation items are defined as a tree of groups, options, and nested sub-options — all with async visibility and disabled predicates so you can gate items behind permission checks. The component is generic over a `Payload` type that is threaded through all visibility and action callbacks.

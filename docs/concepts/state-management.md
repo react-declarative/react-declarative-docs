@@ -1,3 +1,7 @@
+---
+title: docs/concepts/state-management
+group: docs
+---
 # How react-declarative manages form state for you
 
 react-declarative manages form state for you. You supply an initial data loader, subscribe to changes, and define per-field rules as plain callback functions — the library handles diffing, re-renders, validation display, and disabled/hidden field states without any external state managers or manual `useState` wiring. This page explains all the moving parts.

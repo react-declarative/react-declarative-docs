@@ -1,3 +1,7 @@
+---
+title: docs/api/components/one
+group: docs
+---
 # One component: full props and API reference
 
 `One` is the core form-rendering component in react-declarative. You describe your form as a flat array of field descriptors (the `fields` prop), provide a data source via `handler` or `data`, and `One` takes care of rendering, validation, and change propagation. The component is generic over three type parameters: `Data` (the shape of your form object), `Payload` (extra context passed to field callbacks), and `Field` (defaults to `TypedField<Data, Payload>`).

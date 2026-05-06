@@ -1,3 +1,7 @@
+---
+title: docs/components/wizard
+group: docs
+---
 # WizardView: multi-step forms with MUI Stepper routing
 
 `<WizardView />` combines a Material UI stepper with a nested router outlet, letting you build multi-step flows where each step is a full page component. You define steps as `IWizardStep[]` (what appears in the stepper) and routes as `IWizardOutlet[]` (which component renders when a given path is active). Navigation between steps is done programmatically via `history.replace()` so deep-linking and browser Back work out of the box.

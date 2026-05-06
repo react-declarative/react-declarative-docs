@@ -1,6 +1,6 @@
 {
     "entryPoints": ["./types.d.ts"],
-    "readme": "./README.md", 
+    "readme": "./docs/index.md", 
     "projectDocuments": ["docs/*"],
     "name": "react-declarative",
     "includeVersion": false,

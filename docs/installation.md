@@ -1,3 +1,6 @@
+---
+title: installation
+---
 # Installing react-declarative in your project
 
 react-declarative builds on top of Material UI (MUI) v5, so you install both the library and its required peer dependencies together. This page covers the three installation paths: a fresh project, an existing project, and a lightweight variant for apps that only need forms.

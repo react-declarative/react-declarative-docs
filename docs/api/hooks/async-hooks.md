@@ -1,3 +1,7 @@
+---
+title: docs/api/hooks/async-hooks
+group: docs
+---
 # Async hooks: useSinglerunAction, useQueuedAction, and more
 
 Async hooks give you a consistent way to handle asynchronous operations in your components. Each hook returns a `loading` boolean and an `error` boolean alongside an `execute` function, so you can drive UI state without writing boilerplate. Depending on which hook you choose, you get additional behavior: single-execution guards, ordered queuing, batch progress tracking, or a shared semaphore that disables multiple buttons at once.

@@ -1,3 +1,7 @@
+---
+title: docs/api/types/field-type
+group: docs
+---
 # FieldType enum: all field and layout type values
 
 `FieldType` is the core enum that tells the `<One />` component what kind of field or layout container to render for each entry in your `fields` array. Every field definition object requires a `type` property set to one of these values. Understanding which `FieldType` to choose is the foundation of building forms and layouts with react-declarative.

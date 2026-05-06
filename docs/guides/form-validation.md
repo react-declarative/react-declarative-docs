@@ -1,3 +1,7 @@
+---
+title: docs/guides/form-validation
+group: docs
+---
 # Validating form fields with isInvalid and isIncorrect
 
 Validation in react-declarative lives entirely inside your field schema — there is no separate validation library to configure. Each field can declare its own `isInvalid` callback that receives the current form data and returns either a string error message or `null`. This keeps validation logic co-located with the field it describes and makes the schema self-documenting.

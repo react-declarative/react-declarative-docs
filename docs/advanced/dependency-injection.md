@@ -1,3 +1,7 @@
+---
+title: docs/advanced/dependency-injection
+group: docs
+---
 # Dependency injection with provide and inject
 
 `react-declarative` ships a lightweight inversion-of-control (IoC) container inspired by Angular's dependency injection system. You register service classes with `provide`, retrieve them anywhere with `inject`, and optionally define `prefetch` / `unload` lifecycle hooks that the built-in router calls automatically. The container prevents you from tangling API logic directly into components, which makes larger apps significantly easier to test and maintain.

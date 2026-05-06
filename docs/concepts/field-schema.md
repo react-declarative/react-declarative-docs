@@ -1,3 +1,7 @@
+---
+title: docs/concepts/field-schema
+group: docs
+---
 # Field schema: how TypedField[] defines your form
 
 Every form in react-declarative is driven by a single JavaScript array: `TypedField[]`. Instead of writing JSX for each input, you describe what you need as plain objects, and the `<One />` component renders the full UI from that description. This means your form logic lives in data you can inspect, transform, and reuse — not scattered across component trees.

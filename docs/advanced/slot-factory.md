@@ -1,3 +1,7 @@
+---
+title: docs/advanced/slot-factory
+group: docs
+---
 # Customizing field renderers with SlotFactory
 
 `OneSlotFactory` and `ListSlotFactory` let you swap out every field renderer that `<One />` and `<List />` use internally. You wrap your form tree with the factory component, pass your custom components as props, and the library uses them everywhere inside that subtree instead of the built-in MUI implementations. Your JSON schemas stay completely unchanged—only the visual layer is replaced.

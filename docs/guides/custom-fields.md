@@ -1,3 +1,7 @@
+---
+title: docs/guides/custom-fields
+group: docs
+---
 # Custom fields: Component injection and SlotFactory
 
 React-declarative gives you two complementary ways to customize what renders inside a form. `FieldType.Component` lets you drop any React component into a specific slot in your schema — a one-off injection with full access to the current form data. `OneSlotFactory` lets you replace a built-in field renderer globally, so every `FieldType.Text` (or any other type) across your entire application uses your custom component instead.

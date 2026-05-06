@@ -1,3 +1,7 @@
+---
+title: docs/guides/conditional-fields
+group: docs
+---
 # Conditional field visibility and disabled state
 
 React-declarative gives you three orthogonal callbacks for controlling how a field appears based on the current form state: `isVisible` hides or shows the field, `isDisabled` greys it out and blocks input, and `isReadonly` renders it as read-only text. All three receive the same arguments — the full data object and the external `payload` — so you can branch on either form state or application context.

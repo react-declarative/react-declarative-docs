@@ -1,3 +1,7 @@
+---
+title: docs/components/one
+group: docs
+---
 # One component: schema-driven forms with auto state
 
 `<One />` is the core form-building component in react-declarative. You describe your form as a plain JavaScript array of field objects (`TypedField[]`), pass it to the component, and the library handles layout, validation, state diffing, and change callbacks for you. Every field can be conditionally visible, disabled, or invalid based on the current form data — all declared inline without extra state management on your side.

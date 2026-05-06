@@ -1,3 +1,7 @@
+---
+title: docs/api/types/typed-field
+group: docs
+---
 # TypedField\<Data, Payload\>: typed schema definition
 
 `TypedField<Data, Payload>` is a TypeScript discriminated union that gives you full IntelliSense when building `fields` arrays for the `<One />` component. As soon as you set the `type` property on a field object to a specific `FieldType` value, TypeScript narrows the available props to exactly those that are valid for that field type — no more guessing which properties apply and which don't.

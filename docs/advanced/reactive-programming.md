@@ -1,3 +1,7 @@
+---
+title: docs/advanced/reactive-programming
+group: docs
+---
 # Reactive programming with Subject and Source
 
 `react-declarative` includes a self-contained reactive programming toolkit: `Subject` and `BehaviorSubject` for event streams, a `Source` class for composable MapReduce pipelines, and a set of React hooks that wire these primitives into your component tree cleanly. You do not need RxJS—the library's own implementations are enough for the patterns commonly needed alongside form and grid components.

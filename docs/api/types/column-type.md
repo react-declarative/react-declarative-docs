@@ -1,3 +1,7 @@
+---
+title: docs/api/types/column-type
+group: docs
+---
 # ColumnType enum: Text, Action, Compute, and Component
 
 `ColumnType` controls how each column in a `<List />` component renders its cell content. You set it on the `type` property of an `IColumn` definition object. Each type has a distinct rendering strategy — from plain text to interactive action menus to fully custom React components.

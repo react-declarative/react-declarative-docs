@@ -1,3 +1,7 @@
+---
+title: docs/api/hooks/navigation-hooks
+group: docs
+---
 # Navigation hooks: useRouteParams and useRouteItem
 
 Navigation hooks and utilities let you integrate with the `history` library's routing model without coupling your components to a global router. You define routes as plain objects with a `path` string, pass in a `history` instance, and the hooks reactively return the matched params or item as the URL changes. The utility functions — `parseRouteUrl`, `getRouteParams`, and `toRouteUrl` — work independently of React and can be used anywhere in your application.

@@ -1,3 +1,7 @@
+---
+title: docs/api/components/wizard-view
+group: docs
+---
 # WizardView props: steps, routes, and navigation
 
 `WizardView` renders a multi-step wizard backed by an internal router. The stepper header at the top highlights the active step; the content area renders whichever route outlet is active for the current `pathname`. Steps and routes are defined separately: `steps` controls what appears in the stepper header and `routes` maps URL paths to outlet components. The component is generic over `Data` (the form data flowing through the wizard), `Payload` (context forwarded to outlet props), and `Params` (optional route parameters).

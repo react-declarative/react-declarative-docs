@@ -1,3 +1,7 @@
+---
+title: docs/components/kanban
+group: docs
+---
 # KanbanView: real-time drag-and-drop board component
 
 `<KanbanView />` turns a flat list of items and a column configuration into a full kanban board. Cards are draggable between columns; when a card moves, `onChangeColumn` fires so you can persist the change to your backend. The component supports real-time updates through a `reloadSubject` observable and can render arbitrary per-card detail rows defined in `IBoardRow[]`.

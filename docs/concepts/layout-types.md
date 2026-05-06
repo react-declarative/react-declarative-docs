@@ -1,3 +1,7 @@
+---
+title: docs/concepts/layout-types
+group: docs
+---
 # Layout types: Group, Paper, Tabs, Condition, and more
 
 Layout types are `FieldType` values that act as containers. They do not store values themselves; instead, they wrap one or more child fields inside a visual or logical structure. You nest child fields in a `fields` array (multiple children) or a `child` property (single child). All layout types participate in the same 12-column responsive grid as regular fields, so you can compose arbitrarily complex UIs purely from data.
